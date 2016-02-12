@@ -9,15 +9,9 @@ function add_action_admin_menu($links)
 
 function settings_admin_menu()
 {
-	$options_page = "settings_mf_base";
 	$options_area = "settings_admin_menu";
 
-	add_settings_section(
-		$options_area,
-		"",
-		'settings_admin_menu_callback',
-		$options_page
-	);
+	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
 	$arr_settings = array(
 		"setting_admin_menu_roles" => __("Show or hide", 'lang_admin_menu'),
@@ -25,16 +19,15 @@ function settings_admin_menu()
 
 	foreach($arr_settings as $handle => $text)
 	{
-		add_settings_field($handle, $text, $handle."_callback", $options_page, $options_area);
+		add_settings_field($handle, $text, $handle."_callback", BASE_OPTIONS_PAGE, $options_area);
 
-		register_setting($options_page, $handle, 'validate_settings_admin_menu');
+		register_setting(BASE_OPTIONS_PAGE, $handle, 'validate_settings_admin_menu');
 	}
 }
 
 function settings_admin_menu_callback()
 {
-	echo "<div id='settings_admin_menu'>&nbsp;</div>
-	<a href='#settings_admin_menu'><h3>".__("Admin Menu", 'lang_admin_menu')."</h3></a>";
+	echo settings_header('settings_admin_menu', __("Admin Menu", 'lang_admin_menu'));
 }
 
 function setting_admin_menu_roles_callback()

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MF Forms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-25 11:28+0100\n"
+"POT-Creation-Date: 2016-02-08 13:24+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: Martin Fors\n"
@@ -19,13 +19,13 @@ msgstr ""
 msgid "Settings"
 msgstr "Inställningar"
 
-#: ../include/functions.php:17
-msgid "Admin Menu"
-msgstr "Adminmeny"
-
 #: ../include/functions.php:23
 msgid "Show or hide"
 msgstr "Visa eller dölj"
+
+#: ../include/functions.php:36
+msgid "Admin Menu"
+msgstr "Adminmeny"
 
 #: ../include/functions.php:47
 msgid "Default"
