@@ -1,0 +1,12 @@
+@media all
+{
+	html.wp-toolbar
+	{
+		padding-top: 0;
+	}
+
+	#wpadminbar, #collapse-menu, #wpfooter
+	{
+		display: none;
+	}
+}

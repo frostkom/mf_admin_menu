@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MF Forms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-08 13:24+0100\n"
+"POT-Creation-Date: 2016-03-03 09:52+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: Martin Fors\n"
@@ -15,25 +15,45 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/functions.php:5
+#: ../include/functions.php:16
 msgid "Settings"
 msgstr "Inställningar"
 
-#: ../include/functions.php:23
-msgid "Show or hide"
-msgstr "Visa eller dölj"
+#: ../include/functions.php:33
+msgid "Yes"
+msgstr "Ja"
 
-#: ../include/functions.php:36
-msgid "Admin Menu"
-msgstr "Adminmeny"
+#: ../include/functions.php:38
+msgid "No"
+msgstr "Nej"
 
-#: ../include/functions.php:47
+#: ../include/functions.php:43
 msgid "Default"
 msgstr "Standard"
 
-#: ../include/functions.php:58
+#: ../include/functions.php:57
 msgid "None"
 msgstr "Ingen"
+
+#: ../include/functions.php:62
+msgid "Custom Name"
+msgstr "Anpassat namn"
+
+#: ../include/functions.php:75
+msgid "Show admin bar"
+msgstr "Visa adminmenyn längst upp"
+
+#: ../include/functions.php:76
+msgid "Show or hide"
+msgstr "Visa eller dölj"
+
+#: ../include/functions.php:89
+msgid "Admin Menu"
+msgstr "Adminmeny"
+
+#: ../include/functions.php:118
+msgid "Profile"
+msgstr "Profil"
 
 #~ msgid "You have chosen"
 #~ msgstr "Du har valt"
@@ -94,9 +114,6 @@ msgstr "Ingen"
 
 #~ msgid "Hidden field"
 #~ msgstr "Dolt fält"
-
-#~ msgid "Custom tag"
-#~ msgstr "Anpassat element"
 
 #~ msgid "Custom tag (end)"
 #~ msgstr "Anpassat element (slut)"
@@ -279,9 +296,6 @@ msgstr "Ingen"
 
 #~ msgid "Submit"
 #~ msgstr "Skicka"
-
-#~ msgid "Provider"
-#~ msgstr "Leverantör"
 
 #~ msgid "Merchant ID"
 #~ msgstr "Butiks-ID"

@@ -3,7 +3,7 @@
 Plugin Name: MF Admin Menu
 Plugin URI: 
 Description: 
-Version: 1.0.5
+Version: 2.1.0
 Author: Martin Fors
 Author URI: http://frostkom.se
 */
@@ -12,6 +12,7 @@ if(is_admin())
 {
 	include_once("include/functions.php");
 
+	add_action('init', 'init_admin_menu');
 	add_action('admin_init', 'settings_admin_menu');
 	add_action('admin_menu', 'menu_admin_menu', 999);
 
