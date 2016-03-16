@@ -6,16 +6,9 @@ function init_admin_menu()
 
 	if($option != '' && ($option == "no" || $option == "none" || !current_user_can($option)))
 	{
-		wp_enqueue_style('style_admin_menu', plugins_url()."/mf_admin_menu/include/style.css");
-		mf_enqueue_script('script_admin_menu', plugins_url()."/mf_admin_menu/include/script.js");
+		wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
+		mf_enqueue_script('script_admin_menu', plugin_dir_url(__FILE__)."script_hide.js");
 	}
-}
-
-function add_action_admin_menu($links)
-{
-	$links[] = "<a href='".admin_url('options-general.php?page=settings_mf_base#settings_admin_menu')."'>".__("Settings", 'lang_admin_menu')."</a>";
-
-	return $links;
 }
 
 function get_settings_roles($data)
@@ -30,12 +23,7 @@ function get_settings_roles($data)
 
 	if($data['yes'] == true)
 	{
-		$arr_data[] = array("yes", __("Yes", 'lang_admin_menu'));
-	}
-
-	if($data['no'] == true)
-	{
-		$arr_data[] = array("no", __("No", 'lang_admin_menu'));
+		$arr_data[] = array("yes", "-- ".__("Yes", 'lang_admin_menu')." --");
 	}
 
 	if($data['default'] == true)
@@ -49,7 +37,15 @@ function get_settings_roles($data)
 	{
 		$key = get_role_first_capability($key);
 
-		$arr_data[] = array($key, __($value));
+		if(!isset($arr_data[$key]))
+		{
+			$arr_data[$key] = array($key, $value);
+		}
+	}
+
+	if($data['no'] == true)
+	{
+		$arr_data[] = array("no", "-- ".__("No", 'lang_admin_menu')." --");
 	}
 
 	if($data['none'] == true)
@@ -86,7 +82,9 @@ function settings_admin_menu()
 
 function settings_admin_menu_callback()
 {
-	echo settings_header('settings_admin_menu', __("Admin Menu", 'lang_admin_menu'));
+	$setting_key = get_setting_key(__FUNCTION__);
+
+	echo settings_header($setting_key, __("Admin Menu", 'lang_admin_menu'));
 }
 
 function setting_hide_admin_bar_callback()
@@ -102,7 +100,7 @@ function setting_admin_menu_roles_callback()
 {
 	global $menu;
 
-	mf_enqueue_script('script_admin_menu_wp', plugins_url()."/mf_admin_menu/include/script_wp.js");
+	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js");
 
 	$option = get_option('setting_admin_menu_roles');
 
