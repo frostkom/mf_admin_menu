@@ -31,17 +31,7 @@ function get_settings_roles($data)
 		$arr_data[] = array("", "-- ".__("Default", 'lang_admin_menu')." --");
 	}
 
-	$roles = get_all_roles();
-
-	foreach($roles as $key => $value)
-	{
-		$key = get_role_first_capability($key);
-
-		if(!isset($arr_data[$key]))
-		{
-			$arr_data[$key] = array($key, $value);
-		}
-	}
+	get_roles_for_select($arr_data, false, true);
 
 	if($data['no'] == true)
 	{

@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: MF Admin Menu
-Plugin URI: 
+Plugin URI: https://github.com/frostkom/mf_admin_menu
 Description: 
-Version: 2.3.0
+Version: 2.4.1
 Author: Martin Fors
 Author URI: http://frostkom.se
 */
