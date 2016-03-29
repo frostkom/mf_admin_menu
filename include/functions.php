@@ -2,12 +2,15 @@
 
 function init_admin_menu()
 {
-	$option = get_option('setting_hide_admin_bar');
-
-	if($option != '' && ($option == "no" || $option == "none" || !current_user_can($option)))
+	if(get_current_user_id() > 0)
 	{
-		wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
-		mf_enqueue_script('script_admin_menu', plugin_dir_url(__FILE__)."script_hide.js");
+		$option = get_option('setting_hide_admin_bar');
+
+		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
+		{
+			wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
+			mf_enqueue_script('script_admin_menu', plugin_dir_url(__FILE__)."script_hide.js", array('logout_url' => wp_logout_url()));
+		}
 	}
 }
 
@@ -23,29 +26,29 @@ function get_settings_roles($data)
 
 	if($data['yes'] == true)
 	{
-		$arr_data[] = array("yes", "-- ".__("Yes", 'lang_admin_menu')." --");
+		$arr_data["yes"] = "-- ".__("Yes", 'lang_admin_menu')." --";
 	}
 
 	if($data['default'] == true)
 	{
-		$arr_data[] = array("", "-- ".__("Default", 'lang_admin_menu')." --");
+		$arr_data[''] = "-- ".__("Default", 'lang_admin_menu')." --";
 	}
 
-	get_roles_for_select($arr_data, false, true);
+	$arr_data = get_roles_for_select(array('array' => $arr_data, 'add_choose_here' => false, 'strict_key' => true));
 
 	if($data['no'] == true)
 	{
-		$arr_data[] = array("no", "-- ".__("No", 'lang_admin_menu')." --");
+		$arr_data["no"] = "-- ".__("No", 'lang_admin_menu')." --";
 	}
 
 	if($data['none'] == true)
 	{
-		$arr_data[] = array("none", "-- ".__("None", 'lang_admin_menu')." --");
+		$arr_data["none"] = "-- ".__("None", 'lang_admin_menu')." --";
 	}
 
 	if($data['custom_name'] == true)
 	{
-		$arr_data[] = array("custom_name", "-- ".__("Custom Name", 'lang_admin_menu')." --");
+		$arr_data["custom_name"] = "-- ".__("Custom Name", 'lang_admin_menu')." --";
 	}
 
 	return $arr_data;
@@ -53,7 +56,7 @@ function get_settings_roles($data)
 
 function settings_admin_menu()
 {
-	$options_area = "settings_admin_menu";
+	$options_area = __FUNCTION__;
 
 	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
@@ -79,11 +82,12 @@ function settings_admin_menu_callback()
 
 function setting_hide_admin_bar_callback()
 {
-	$option = get_option('setting_hide_admin_bar');
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
 
 	$arr_data = get_settings_roles(array('yes' => true, 'no' => true));
 
-	echo show_select(array('data' => $arr_data, 'name' => "setting_hide_admin_bar", 'compare' => $option));
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
 }
 
 function setting_admin_menu_roles_callback()
@@ -92,7 +96,8 @@ function setting_admin_menu_roles_callback()
 
 	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js");
 
-	$option = get_option('setting_admin_menu_roles');
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
 
 	$arr_data = get_settings_roles(array('default' => true, 'custom_name' => true, 'none' => true));
 

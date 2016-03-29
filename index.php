@@ -3,18 +3,23 @@
 Plugin Name: MF Admin Menu
 Plugin URI: https://github.com/frostkom/mf_admin_menu
 Description: 
-Version: 2.4.1
+Version: 2.5.2
 Author: Martin Fors
 Author URI: http://frostkom.se
+Text Domain: lang_admin_menu
+Domain Path: /lang
+
+GitHub Plugin URI: frostkom/mf_admin_menu
 */
+
+include_once("include/functions.php");
+
+add_action('init', 'init_admin_menu');
 
 if(is_admin())
 {
-	include_once("include/functions.php");
-
 	register_uninstall_hook(__FILE__, 'uninstall_admin_menu');
 
-	add_action('init', 'init_admin_menu');
 	add_action('admin_init', 'settings_admin_menu');
 	add_action('admin_menu', 'menu_admin_menu', 999);
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MF Forms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-03 09:52+0100\n"
+"POT-Creation-Date: 2016-03-23 10:39+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: Martin Fors\n"
@@ -15,45 +15,44 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/functions.php:16
-msgid "Settings"
-msgstr "Inställningar"
-
-#: ../include/functions.php:33
+#: ../include/functions.php:26
 msgid "Yes"
 msgstr "Ja"
+
+#: ../include/functions.php:31
+msgid "Default"
+msgstr "Standard"
 
 #: ../include/functions.php:38
 msgid "No"
 msgstr "Nej"
 
 #: ../include/functions.php:43
-msgid "Default"
-msgstr "Standard"
-
-#: ../include/functions.php:57
 msgid "None"
 msgstr "Ingen"
 
-#: ../include/functions.php:62
+#: ../include/functions.php:48
 msgid "Custom Name"
 msgstr "Anpassat namn"
 
-#: ../include/functions.php:75
+#: ../include/functions.php:61
 msgid "Show admin bar"
 msgstr "Visa adminmenyn längst upp"
 
-#: ../include/functions.php:76
+#: ../include/functions.php:62
 msgid "Show or hide"
 msgstr "Visa eller dölj"
 
-#: ../include/functions.php:89
+#: ../include/functions.php:77
 msgid "Admin Menu"
 msgstr "Adminmeny"
 
-#: ../include/functions.php:118
+#: ../include/functions.php:108
 msgid "Profile"
 msgstr "Profil"
+
+#~ msgid "Settings"
+#~ msgstr "Inställningar"
 
 #~ msgid "You have chosen"
 #~ msgstr "Du har valt"
