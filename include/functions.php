@@ -1,5 +1,22 @@
 <?php
 
+function admin_bar_admin_menu()
+{
+	global $wp_admin_bar;
+
+	//$wp_admin_bar->remove_menu('menu-toggle');
+	$wp_admin_bar->remove_menu('wp-logo');
+
+	if(is_plugin_active("mf_theme_core/index.php") && get_option('setting_no_public_pages') == 'yes')
+	{
+		$wp_admin_bar->remove_menu('site-name');
+	}
+
+	$wp_admin_bar->remove_menu('updates');
+	$wp_admin_bar->remove_menu('new-content');
+	//$wp_admin_bar->remove_menu('my-account');
+}
+
 function init_admin_menu()
 {
 	if(get_current_user_id() > 0)
@@ -8,8 +25,12 @@ function init_admin_menu()
 
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
+			add_filter('show_admin_bar', '__return_false');
+
+			add_action('wp_before_admin_bar_render', 'admin_bar_admin_menu'); 
+
 			wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
-			mf_enqueue_script('script_admin_menu', plugin_dir_url(__FILE__)."script_hide.js", array('logout_url' => wp_logout_url()));
+			//mf_enqueue_script('script_admin_menu', plugin_dir_url(__FILE__)."script_hide.js", array('logout_url' => wp_logout_url()));
 		}
 	}
 }
@@ -34,7 +55,7 @@ function get_settings_roles($data)
 		$arr_data[''] = "-- ".__("Default", 'lang_admin_menu')." --";
 	}
 
-	$arr_data = get_roles_for_select(array('array' => $arr_data, 'add_choose_here' => false, 'strict_key' => true));
+	$arr_data = get_roles_for_select(array('array' => $arr_data, 'add_choose_here' => false));
 
 	if($data['no'] == true)
 	{
