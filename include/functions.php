@@ -13,8 +13,12 @@ function admin_bar_admin_menu()
 	}
 
 	$wp_admin_bar->remove_menu('updates');
+	$wp_admin_bar->remove_menu('comments');
 	$wp_admin_bar->remove_menu('new-content');
 	//$wp_admin_bar->remove_menu('my-account');
+
+	/*$screen = get_current_screen();
+	$screen->remove_help_tabs();*/
 }
 
 function init_admin_menu()
