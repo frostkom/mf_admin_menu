@@ -6,12 +6,6 @@ function admin_bar_admin_menu()
 
 	//$wp_admin_bar->remove_menu('menu-toggle');
 	$wp_admin_bar->remove_menu('wp-logo');
-
-	if(is_plugin_active("mf_theme_core/index.php") && get_option('setting_no_public_pages') == 'yes')
-	{
-		$wp_admin_bar->remove_menu('site-name');
-	}
-
 	$wp_admin_bar->remove_menu('updates');
 	$wp_admin_bar->remove_menu('comments');
 	$wp_admin_bar->remove_menu('new-content');
