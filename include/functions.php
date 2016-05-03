@@ -6,6 +6,14 @@ function admin_bar_admin_menu()
 
 	//$wp_admin_bar->remove_menu('menu-toggle');
 	$wp_admin_bar->remove_menu('wp-logo');
+
+	if(is_multisite())
+	{
+		//$wp_admin_bar->remove_menu('my-sites');
+		$wp_admin_bar->remove_menu('site-name');
+	}
+
+	$wp_admin_bar->remove_menu('view');
 	$wp_admin_bar->remove_menu('updates');
 	$wp_admin_bar->remove_menu('comments');
 	$wp_admin_bar->remove_menu('new-content');
