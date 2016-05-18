@@ -13,6 +13,11 @@ function admin_bar_admin_menu()
 		$wp_admin_bar->remove_menu('site-name');
 	}
 
+	else
+	{
+		$wp_admin_bar->remove_menu('live');
+	}
+
 	$wp_admin_bar->remove_menu('view');
 	$wp_admin_bar->remove_menu('updates');
 	$wp_admin_bar->remove_menu('comments');
