@@ -1,6 +1,6 @@
 @media all
 {
-	#screen-meta-links, #collapse-menu, #wpfooter
+	/*#screen-meta-links, */#collapse-menu, #wpfooter
 	{
 		display: none;
 	}

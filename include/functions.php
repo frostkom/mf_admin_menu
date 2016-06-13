@@ -23,9 +23,26 @@ function admin_bar_admin_menu()
 	$wp_admin_bar->remove_menu('comments');
 	$wp_admin_bar->remove_menu('new-content');
 	//$wp_admin_bar->remove_menu('my-account');
+}
 
-	/*$screen = get_current_screen();
-	$screen->remove_help_tabs();*/
+function screen_options_admin_menu($display_boolean, $wp_screen_object)
+{
+	/*$blacklist = array('post.php', 'post-new.php', 'index.php', 'edit.php');
+
+	if(in_array($GLOBALS['pagenow'], $blacklist))
+	{*/
+		$wp_screen_object->render_screen_layout();
+		$wp_screen_object->render_per_page_options();
+
+		return false;
+    /*}
+	return true;*/
+}
+
+function help_tabs_admin_menu()
+{
+	$screen = get_current_screen();
+	$screen->remove_help_tabs();
 }
 
 function init_admin_menu()
@@ -42,6 +59,14 @@ function init_admin_menu()
 
 			wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
 			//mf_enqueue_script('script_admin_menu', plugin_dir_url(__FILE__)."script_hide.js", array('logout_url' => wp_logout_url()));
+		}
+
+		$option = get_option('setting_hide_screen_options');
+
+		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
+		{
+			add_filter('screen_options_show_screen', 'screen_options_admin_menu', 10, 2);
+			add_action('wp_before_admin_bar_render', 'help_tabs_admin_menu'); 
 		}
 	}
 }
@@ -94,6 +119,7 @@ function settings_admin_menu()
 
 	$arr_settings = array(
 		"setting_hide_admin_bar" => __("Show admin bar", 'lang_admin_menu'),
+		"setting_hide_screen_options" => __("Show screen options", 'lang_admin_menu'),
 		"setting_admin_menu_roles" => __("Show or hide", 'lang_admin_menu'),
 	);
 
@@ -113,6 +139,16 @@ function settings_admin_menu_callback()
 }
 
 function setting_hide_admin_bar_callback()
+{
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
+
+	$arr_data = get_settings_roles(array('yes' => true, 'no' => true));
+
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
+}
+
+function setting_hide_screen_options_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);
