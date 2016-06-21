@@ -176,7 +176,7 @@ function setting_admin_menu_roles_callback()
 			if(!in_array('profile.php', $menu))
 			{
 				$menu[71] = array(
-					0 => __('Profile', 'lang_admin_menu'),
+					0 => __("Profile", 'lang_admin_menu'),
 					1 => 'read',
 					2 => 'profile.php',
 				);
