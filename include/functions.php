@@ -145,7 +145,7 @@ function setting_hide_admin_bar_callback()
 
 	$arr_data = get_settings_roles(array('yes' => true, 'no' => true));
 
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option));
 }
 
 function setting_hide_screen_options_callback()
@@ -155,7 +155,7 @@ function setting_hide_screen_options_callback()
 
 	$arr_data = get_settings_roles(array('yes' => true, 'no' => true));
 
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option));
 }
 
 function setting_admin_menu_roles_callback()
@@ -201,7 +201,7 @@ function setting_admin_menu_roles_callback()
 						echo "<div class='flex_flow tight'>"
 							.show_textfield(array('value' => $item_name))
 							.input_hidden(array('value' => $item_url))
-							.show_select(array('data' => $arr_data, 'name' => "setting_admin_menu_roles[".$option_temp."]", 'compare' => $item_capability))
+							.show_select(array('data' => $arr_data, 'name' => "setting_admin_menu_roles[".$option_temp."]", 'value' => $item_capability))
 						."</div>";
 					}
 				}
@@ -217,7 +217,7 @@ function setting_admin_menu_roles_callback()
 				echo "<div class='flex_flow tight'>"
 					.show_textfield(array('value' => $item_name))
 					.input_hidden(array('value' => $item_url))
-					.show_select(array('data' => $arr_data, 'name' => "setting_admin_menu_roles[".$key."]", 'compare' => $value))
+					.show_select(array('data' => $arr_data, 'name' => "setting_admin_menu_roles[".$key."]", 'value' => $value))
 				."</div>";
 			}
 		}
