@@ -118,9 +118,9 @@ function settings_admin_menu()
 	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
 	$arr_settings = array(
-		"setting_hide_admin_bar" => __("Show admin bar", 'lang_admin_menu'),
-		"setting_hide_screen_options" => __("Show screen options", 'lang_admin_menu'),
-		"setting_admin_menu_roles" => __("Show or hide", 'lang_admin_menu'),
+		'setting_hide_admin_bar' => __("Show admin bar", 'lang_admin_menu'),
+		'setting_hide_screen_options' => __("Show screen options", 'lang_admin_menu'),
+		'setting_admin_menu_roles' => __("Show or hide", 'lang_admin_menu'),
 	);
 
 	foreach($arr_settings as $handle => $text)
