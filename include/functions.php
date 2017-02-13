@@ -16,10 +16,10 @@ function admin_bar_admin_menu()
 	else
 	{
 		$wp_admin_bar->remove_menu('live');
+		$wp_admin_bar->remove_menu('updates');
 	}
 
 	$wp_admin_bar->remove_menu('view');
-	$wp_admin_bar->remove_menu('updates');
 	$wp_admin_bar->remove_menu('comments');
 	$wp_admin_bar->remove_menu('new-content');
 	//$wp_admin_bar->remove_menu('my-account');
