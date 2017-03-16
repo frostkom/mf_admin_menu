@@ -49,25 +49,39 @@ function init_admin_menu()
 {
 	if(get_current_user_id() > 0)
 	{
-		$option = get_option('setting_hide_admin_bar');
+		$option = get_option_or_default('setting_show_admin_bar', get_option('setting_hide_admin_bar'));
+
+		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
+		{
+			add_action('wp_before_admin_bar_render', 'admin_bar_admin_menu'); 
+
+			wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
+		}
+
+		$option = get_option('setting_show_public_admin_bar');
 
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
 			add_filter('show_admin_bar', '__return_false');
-
-			add_action('wp_before_admin_bar_render', 'admin_bar_admin_menu'); 
-
-			wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
-			//mf_enqueue_script('script_admin_menu', plugin_dir_url(__FILE__)."script_hide.js", array('logout_url' => wp_logout_url()));
 		}
 
-		$option = get_option('setting_hide_screen_options');
+		$option = get_option_or_default('setting_show_screen_options', get_option('setting_hide_screen_options'));
 
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
 			add_filter('screen_options_show_screen', 'screen_options_admin_menu', 10, 2);
 			add_action('wp_before_admin_bar_render', 'help_tabs_admin_menu'); 
 		}
+	}
+}
+
+function show_profile_admin_menu($user)
+{
+	$option = get_option('setting_show_public_admin_bar');
+
+	if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
+	{
+		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_hide.js", $arr_remove);
 	}
 }
 
@@ -118,8 +132,9 @@ function settings_admin_menu()
 	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
 	$arr_settings = array(
-		'setting_hide_admin_bar' => __("Show admin bar", 'lang_admin_menu'),
-		'setting_hide_screen_options' => __("Show screen options", 'lang_admin_menu'),
+		'setting_show_admin_bar' => __("Show admin bar", 'lang_admin_menu'),
+		'setting_show_public_admin_bar' => __("Show public admin bar", 'lang_admin_menu'),
+		'setting_show_screen_options' => __("Show screen options", 'lang_admin_menu'),
 		'setting_admin_menu_roles' => __("Show or hide", 'lang_admin_menu'),
 	);
 
@@ -138,24 +153,28 @@ function settings_admin_menu_callback()
 	echo settings_header($setting_key, __("Admin Menu", 'lang_admin_menu'));
 }
 
-function setting_hide_admin_bar_callback()
+function setting_show_admin_bar_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key);
+	$option = get_option_or_default($setting_key, get_option('setting_hide_admin_bar', 'yes'));
 
-	$arr_data = get_settings_roles(array('yes' => true, 'no' => true));
-
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option));
+	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
-function setting_hide_screen_options_callback()
+function setting_show_public_admin_bar_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key);
+	$option = get_option($setting_key, 'yes');
 
-	$arr_data = get_settings_roles(array('yes' => true, 'no' => true));
+	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
+}
 
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option));
+function setting_show_screen_options_callback()
+{
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option_or_default($setting_key, get_option('setting_hide_screen_options', 'yes'));
+
+	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
 function setting_admin_menu_roles_callback()

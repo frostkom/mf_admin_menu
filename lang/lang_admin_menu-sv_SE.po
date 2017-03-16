@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-15 11:28+0100\n"
+"POT-Creation-Date: 2017-03-16 17:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,43 +15,47 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/functions.php:86
+#: ../include/functions.php:100
 msgid "Yes"
 msgstr "Ja"
 
-#: ../include/functions.php:91
+#: ../include/functions.php:105
 msgid "Default"
 msgstr "Standard"
 
-#: ../include/functions.php:98
+#: ../include/functions.php:112
 msgid "No"
 msgstr "Nej"
 
-#: ../include/functions.php:103
+#: ../include/functions.php:117
 msgid "None"
 msgstr "Ingen"
 
-#: ../include/functions.php:108
+#: ../include/functions.php:122
 msgid "Custom Name"
 msgstr "Anpassat namn"
 
-#: ../include/functions.php:121
+#: ../include/functions.php:135
 msgid "Show admin bar"
 msgstr "Visa adminmenyn längst upp"
 
-#: ../include/functions.php:122
+#: ../include/functions.php:136
+msgid "Show public admin bar"
+msgstr "Visa adminmenyn på webbsidan"
+
+#: ../include/functions.php:137
 msgid "Show screen options"
 msgstr "Visa skärminställningar"
 
-#: ../include/functions.php:123
+#: ../include/functions.php:138
 msgid "Show or hide"
 msgstr "Visa eller dölj"
 
-#: ../include/functions.php:138
+#: ../include/functions.php:153
 msgid "Admin Menu"
 msgstr "Adminmeny"
 
-#: ../include/functions.php:179
+#: ../include/functions.php:198
 msgid "Profile"
 msgstr "Profil"
 
