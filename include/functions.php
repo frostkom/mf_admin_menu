@@ -177,9 +177,35 @@ function setting_show_screen_options_callback()
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
+function parse_role_select($data)
+{
+	$arr_item = explode('|', $data['key']);
+
+	if(count($arr_item) == 2)
+	{
+		$item_parent = false;
+		$item_url = $arr_item[0];
+		$item_name = $arr_item[1];
+	}
+
+	else
+	{
+		$item_parent = $arr_item[0];
+		$item_url = $arr_item[1];
+		$item_name = $arr_item[2];
+	}
+
+	return "<div class='flex_flow tight'>"
+		.($item_parent == false ? "" : "<div> - </div>")
+		.show_textfield(array('value' => $item_name))
+		.input_hidden(array('value' => $item_url))
+		.show_select(array('data' => $data['array'], 'name' => "setting_admin_menu_roles[".$data['key']."]", 'value' => $data['capability']))
+	."</div>";
+}
+
 function setting_admin_menu_roles_callback()
 {
-	global $menu;
+	global $menu, $submenu;
 
 	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js");
 
@@ -205,23 +231,31 @@ function setting_admin_menu_roles_callback()
 			{
 				if($item[0] != '')
 				{
-					//$item_name = strip_tags($item[0]);
-					//$item_name = trim(preg_replace("/(\<span(.*)\<\/span\>)/is", "", $item[0]));
 					$update_count = get_match("/(\<span.*\<\/span\>)/is", $item[0], false);
 					$item_name = trim(str_replace($update_count, "", $item[0]));
 
 					$item_capability = $item[1];
 					$item_url = $item[2];
 
-					$option_temp = $item_url.'|'.$item_name;
+					$item_key = $item_url.'|'.$item_name;
 
-					if(!(is_array($option) && count($option) > 0 && isset($option[$option_temp])))
+					if(!(is_array($option) && count($option) > 0 && isset($option[$item_key])))
 					{
-						echo "<div class='flex_flow tight'>"
-							.show_textfield(array('value' => $item_name))
-							.input_hidden(array('value' => $item_url))
-							.show_select(array('data' => $arr_data, 'name' => "setting_admin_menu_roles[".$option_temp."]", 'value' => $item_capability))
-						."</div>";
+						echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
+
+						/*foreach($submenu[$item_url] as $subkey => $subitem)
+						{
+							$subitem_name = $subitem[0];
+							$subitem_url = $subitem[2];
+
+							if($subitem_url != $item_url)
+							{
+								$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
+								$subitem_capability = $subitem[1];
+
+								echo parse_role_select(array('array' => $arr_data, 'key' => $subitem_key, 'capability' => $subitem_capability));
+							}
+						}*/
 					}
 				}
 			}
@@ -229,15 +263,9 @@ function setting_admin_menu_roles_callback()
 
 		if(is_array($option) && count($option) > 0)
 		{
-			foreach($option as $key => $value)
+			foreach($option as $item_key => $item_capability)
 			{
-				list($item_url, $item_name) = explode('|', $key);
-
-				echo "<div class='flex_flow tight'>"
-					.show_textfield(array('value' => $item_name))
-					.input_hidden(array('value' => $item_url))
-					.show_select(array('data' => $arr_data, 'name' => "setting_admin_menu_roles[".$key."]", 'value' => $value))
-				."</div>";
+				echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
 			}
 		}
 
@@ -262,7 +290,7 @@ function validate_settings_admin_menu($page_options)
 
 function menu_admin_menu()
 {
-	global $menu;
+	global $menu, $submenu;
 
 	$option = get_option('setting_admin_menu_roles');
 
@@ -270,11 +298,33 @@ function menu_admin_menu()
 	{
 		foreach($option as $key => $value)
 		{
-			list($item_url, $item_name) = explode('|', $key);
+			$arr_item = explode('|', $key);
+
+			if(count($arr_item) == 2)
+			{
+				$item_parent = false;
+				$item_url = $arr_item[0];
+				$item_name = $arr_item[1];
+			}
+
+			else
+			{
+				$item_parent = $arr_item[0];
+				$item_url = $arr_item[1];
+				$item_name = $arr_item[2];
+			}
 
 			if($value != "custom_name" && ($value == "none" || !current_user_can($value)))
 			{
-				remove_menu_page($item_url);
+				if($item_parent == false)
+				{
+					remove_menu_page($item_url);
+				}
+
+				else
+				{
+					remove_submenu_page($item_parent, $item_url);
+				}
 			}
 
 			else if($value != "")
@@ -287,14 +337,31 @@ function menu_admin_menu()
 						{
 							$menu_url = $item[2];
 
-							if($item_url == $menu_url)
+							if($item_parent == false)
 							{
-								$update_count = get_match("/(\<span.*\<\/span\>)/is", $item[0], false);
-								$menu_name = trim(str_replace($update_count, "", $item[0]));
-
-								if($item_name != $menu_name)
+								if($item_url == $menu_url)
 								{
-									$menu[$key][0] = $item_name." ".$update_count;
+									$update_count = get_match("/(\<span.*\<\/span\>)/is", $item[0], false);
+									$menu_name = trim(str_replace($update_count, "", $item[0]));
+
+									if($item_name != $menu_name)
+									{
+										$menu[$key][0] = $item_name." ".$update_count;
+									}
+								}
+							}
+
+							else
+							{
+								foreach($submenu[$menu_url] as $subkey => $subitem)
+								{
+									$subitem_name = $subitem[0];
+									$subitem_url = $subitem[2];
+
+									if($item_url == $subitem_url)
+									{
+										$submenu[$subkey][0] = $item_name;
+									}
 								}
 							}
 						}
