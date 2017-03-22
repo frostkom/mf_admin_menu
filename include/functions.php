@@ -243,17 +243,20 @@ function setting_admin_menu_roles_callback()
 					{
 						echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
 
-						/*foreach($submenu[$item_url] as $subkey => $subitem)
+						/*if(isset($submenu[$item_url]) && is_array($submenu[$item_url]))
 						{
-							$subitem_name = $subitem[0];
-							$subitem_url = $subitem[2];
-
-							if($subitem_url != $item_url)
+							foreach($submenu[$item_url] as $subkey => $subitem)
 							{
-								$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
-								$subitem_capability = $subitem[1];
+								$subitem_name = $subitem[0];
+								$subitem_url = $subitem[2];
 
-								echo parse_role_select(array('array' => $arr_data, 'key' => $subitem_key, 'capability' => $subitem_capability));
+								if($subitem_url != $item_url)
+								{
+									$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
+									$subitem_capability = $subitem[1];
+
+									echo parse_role_select(array('array' => $arr_data, 'key' => $subitem_key, 'capability' => $subitem_capability));
+								}
 							}
 						}*/
 					}
@@ -353,14 +356,17 @@ function menu_admin_menu()
 
 							else
 							{
-								foreach($submenu[$menu_url] as $subkey => $subitem)
+								if(isset($submenu[$menu_url]) && is_array($submenu[$menu_url]))
 								{
-									$subitem_name = $subitem[0];
-									$subitem_url = $subitem[2];
-
-									if($item_url == $subitem_url)
+									foreach($submenu[$menu_url] as $subkey => $subitem)
 									{
-										$submenu[$subkey][0] = $item_name;
+										$subitem_name = $subitem[0];
+										$subitem_url = $subitem[2];
+
+										if($item_url == $subitem_url)
+										{
+											$submenu[$subkey][0] = $item_name;
+										}
 									}
 								}
 							}
