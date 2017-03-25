@@ -138,12 +138,7 @@ function settings_admin_menu()
 		'setting_admin_menu_roles' => __("Show or hide", 'lang_admin_menu'),
 	);
 
-	foreach($arr_settings as $handle => $text)
-	{
-		add_settings_field($handle, $text, $handle."_callback", BASE_OPTIONS_PAGE, $options_area);
-
-		register_setting(BASE_OPTIONS_PAGE, $handle, 'validate_settings_admin_menu');
-	}
+	show_settings_fields(array('area' => $options_area, 'settings' => $arr_settings, 'callback' => 'validate_settings_admin_menu'));
 }
 
 function settings_admin_menu_callback()
@@ -195,18 +190,18 @@ function parse_role_select($data)
 		$item_name = $arr_item[2];
 	}
 
-	return "<div class='flex_flow tight'>"
-		.($item_parent == false ? "" : "<div> - </div>")
+	return "<li class='flex_flow tight".($item_parent == false ? "" : " child")."'>"
 		.show_textfield(array('value' => $item_name))
 		.input_hidden(array('value' => $item_url))
 		.show_select(array('data' => $data['array'], 'name' => "setting_admin_menu_roles[".$data['key']."]", 'value' => $data['capability']))
-	."</div>";
+	."</li>";
 }
 
 function setting_admin_menu_roles_callback()
 {
 	global $menu, $submenu;
 
+	wp_enqueue_style('style_admin_menu_wp', plugin_dir_url(__FILE__)."style_wp.css");
 	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js");
 
 	$setting_key = get_setting_key(__FUNCTION__);
@@ -214,65 +209,82 @@ function setting_admin_menu_roles_callback()
 
 	$arr_data = get_settings_roles(array('default' => true, 'custom_name' => true, 'none' => true));
 
-	echo "<div id='admin_menu_roles'>";
+	$arr_parent_items = array();
 
-		if(count($menu) > 0)
+	if(count($menu) > 0)
+	{
+		if(!in_array('profile.php', $menu))
 		{
-			if(!in_array('profile.php', $menu))
-			{
-				$menu[71] = array(
-					0 => __("Profile", 'lang_admin_menu'),
-					1 => 'read',
-					2 => 'profile.php',
-				);
-			}
+			$menu[71] = array(
+				0 => __("Profile", 'lang_admin_menu'),
+				1 => 'read',
+				2 => 'profile.php',
+			);
+		}
 
-			foreach($menu as $item)
+		foreach($menu as $item)
+		{
+			if($item[0] != '')
 			{
-				if($item[0] != '')
+				$update_count = get_match("/(\<span.*\<\/span\>)/is", $item[0], false);
+				$item_name = trim(str_replace($update_count, "", $item[0]));
+
+				$item_capability = $item[1];
+				$item_url = $item[2];
+
+				$item_key = $item_url.'|'.$item_name;
+
+				if(!(is_array($option) && count($option) > 0 && isset($option[$item_key])))
 				{
-					$update_count = get_match("/(\<span.*\<\/span\>)/is", $item[0], false);
-					$item_name = trim(str_replace($update_count, "", $item[0]));
+					$arr_parent_items[$item_url][$item_url] = array('key' => $item_key, 'capability' => $item_capability);
+					//echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
 
-					$item_capability = $item[1];
-					$item_url = $item[2];
-
-					$item_key = $item_url.'|'.$item_name;
-
-					if(!(is_array($option) && count($option) > 0 && isset($option[$item_key])))
+					if(isset($submenu[$item_url]) && is_array($submenu[$item_url]))
 					{
-						echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
-
-						/*if(isset($submenu[$item_url]) && is_array($submenu[$item_url]))
+						foreach($submenu[$item_url] as $subkey => $subitem)
 						{
-							foreach($submenu[$item_url] as $subkey => $subitem)
+							$subitem_name = $subitem[0];
+							$subitem_url = $subitem[2];
+
+							if($subitem_url != $item_url)
 							{
-								$subitem_name = $subitem[0];
-								$subitem_url = $subitem[2];
+								$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
+								$subitem_capability = $subitem[1];
 
-								if($subitem_url != $item_url)
-								{
-									$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
-									$subitem_capability = $subitem[1];
-
-									echo parse_role_select(array('array' => $arr_data, 'key' => $subitem_key, 'capability' => $subitem_capability));
-								}
+								$arr_parent_items[$item_url][$subitem_url] = array('key' => $subitem_key, 'capability' => $subitem_capability);
+								//echo parse_role_select(array('key' => $subitem_key, 'capability' => $subitem_capability));
 							}
-						}*/
+						}
 					}
 				}
 			}
 		}
+	}
 
-		if(is_array($option) && count($option) > 0)
+	if(is_array($option) && count($option) > 0)
+	{
+		foreach($option as $item_key => $item_capability)
 		{
-			foreach($option as $item_key => $item_capability)
+			$arr_item_key = explode('|', $item_key);
+
+			$arr_parent_items[$arr_item_key[0]][$arr_item_key[1]] = array('key' => $item_key, 'capability' => $item_capability);
+			//echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
+		}
+	}
+
+	echo "<ul id='admin_menu_roles'>";
+
+		foreach($arr_parent_items as $parent_key => $arr_items)
+		{
+			foreach($arr_items as $arr_item)
 			{
-				echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
+				//echo "<li>".$parent_key."</li>";
+
+				echo parse_role_select(array('array' => $arr_data, 'key' => $arr_item['key'], 'capability' => $arr_item['capability']));
 			}
 		}
 
-	echo "</div>";
+	echo "</ul>";
 }
 
 function validate_settings_admin_menu($page_options)
@@ -281,7 +293,7 @@ function validate_settings_admin_menu($page_options)
 	{
 		foreach($page_options as $key => $value)
 		{
-			if($value == "")
+			if($value == '')
 			{
 				unset($page_options[$key]);
 			}
