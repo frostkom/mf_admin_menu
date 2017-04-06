@@ -53,7 +53,7 @@ function init_admin_menu()
 
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
-			add_action('wp_before_admin_bar_render', 'admin_bar_admin_menu'); 
+			add_action('wp_before_admin_bar_render', 'admin_bar_admin_menu');
 
 			wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
 		}
@@ -70,7 +70,7 @@ function init_admin_menu()
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
 			add_filter('screen_options_show_screen', 'screen_options_admin_menu', 10, 2);
-			add_action('wp_before_admin_bar_render', 'help_tabs_admin_menu'); 
+			add_action('wp_before_admin_bar_render', 'help_tabs_admin_menu');
 		}
 	}
 }

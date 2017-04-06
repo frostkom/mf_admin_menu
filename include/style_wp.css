@@ -1,9 +1,6 @@
 @media all
 {
-	ul#admin_menu_roles
-	{
-		
-	}
+	ul#admin_menu_roles{}
 
 		ul#admin_menu_roles .child
 		{
