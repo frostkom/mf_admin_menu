@@ -227,32 +227,37 @@ function setting_admin_menu_roles_callback()
 			if($item[0] != '')
 			{
 				$update_count = get_match("/(\<span.*\<\/span\>)/is", $item[0], false);
-				$item_name = trim(str_replace($update_count, "", $item[0]));
+				$item_name = trim(strip_tags(str_replace($update_count, "", $item[0])));
 
-				$item_capability = $item[1];
-				$item_url = $item[2];
-
-				$item_key = $item_url.'|'.$item_name;
-
-				if(!(is_array($option) && count($option) > 0 && isset($option[$item_key])))
+				if($item_name != '')
 				{
-					$arr_parent_items[$item_url][$item_url] = array('key' => $item_key, 'capability' => $item_capability);
-					//echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
+					$item_capability = $item[1];
+					$item_url = $item[2];
 
-					if(isset($submenu[$item_url]) && is_array($submenu[$item_url]))
+					$item_key = $item_url.'|'.$item_name;
+
+					if(!(is_array($option) && count($option) > 0 && isset($option[$item_key])))
 					{
-						foreach($submenu[$item_url] as $subkey => $subitem)
+						$arr_parent_items[$item_url][$item_url] = array('key' => $item_key, 'capability' => $item_capability);
+
+						if(isset($submenu[$item_url]) && is_array($submenu[$item_url]))
 						{
-							$subitem_name = $subitem[0];
-							$subitem_url = $subitem[2];
-
-							if($subitem_url != $item_url)
+							foreach($submenu[$item_url] as $subkey => $subitem)
 							{
-								$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
-								$subitem_capability = $subitem[1];
+								$subitem_name = trim(strip_tags($subitem[0]));
 
-								$arr_parent_items[$item_url][$subitem_url] = array('key' => $subitem_key, 'capability' => $subitem_capability);
-								//echo parse_role_select(array('key' => $subitem_key, 'capability' => $subitem_capability));
+								if($subitem_name != '')
+								{
+									$subitem_url = $subitem[2];
+
+									if($subitem_url != $item_url)
+									{
+										$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
+										$subitem_capability = $subitem[1];
+
+										$arr_parent_items[$item_url][$subitem_url] = array('key' => $subitem_key, 'capability' => $subitem_capability);
+									}
+								}
 							}
 						}
 					}
@@ -268,18 +273,17 @@ function setting_admin_menu_roles_callback()
 			$arr_item_key = explode('|', $item_key);
 
 			$arr_parent_items[$arr_item_key[0]][$arr_item_key[1]] = array('key' => $item_key, 'capability' => $item_capability);
-			//echo parse_role_select(array('array' => $arr_data, 'key' => $item_key, 'capability' => $item_capability));
 		}
 	}
 
 	echo "<ul id='admin_menu_roles'>";
 
+		//echo htmlspecialchars(var_export($arr_parent_items, true));
+
 		foreach($arr_parent_items as $parent_key => $arr_items)
 		{
 			foreach($arr_items as $arr_item)
 			{
-				//echo "<li>".$parent_key."</li>";
-
 				echo parse_role_select(array('array' => $arr_data, 'key' => $arr_item['key'], 'capability' => $arr_item['capability']));
 			}
 		}
