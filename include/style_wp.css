@@ -1,9 +1,17 @@
 @media all
 {
-	ul#admin_menu_roles{}
+	.current_site
+	{
+		background: rgba(255, 255, 255, .08) !important;
+	}
 
-		ul#admin_menu_roles .child
+		/*.current_site > a
 		{
-			margin-left: 1.5em;
-		}
+			color: #00b9eb !important;
+		}*/
+
+	ul#admin_menu_roles .child
+	{
+		margin-left: 1.5em;
+	}
 }

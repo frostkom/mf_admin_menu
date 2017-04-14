@@ -125,18 +125,62 @@ function get_settings_roles($data)
 	return $arr_data;
 }
 
+function admin_bar_menu_admin_menu()
+{
+	global $wp_admin_bar, $wpdb;
+
+	if(get_option('setting_sort_sites_a2z') != 'no')
+	{
+		//$current_id = $wpdb->blogid;
+
+		$arr_names = array();
+		$arr_sites = $wp_admin_bar->user->blogs;
+
+		foreach($arr_sites as $site_id => $site)
+		{
+			$arr_names[$site_id] = strtoupper($site->blogname);
+		}
+
+		//Remove current site
+		//unset($arr_names[$current_id]);
+
+		asort($arr_names);
+
+		$wp_admin_bar->user->blogs = array();
+
+		//Add current site first
+		//$wp_admin_bar->user->blogs{$current_id} = $arr_sites[$current_id];
+
+		foreach($arr_names as $site_id => $name)
+		{
+			$wp_admin_bar->user->blogs{$site_id} = $arr_sites[$site_id];
+		}
+	}
+}
+
 function settings_admin_menu()
 {
+	global $wpdb;
+
 	$options_area = __FUNCTION__;
+
+	wp_enqueue_style('style_admin_menu_wp', plugin_dir_url(__FILE__)."style_wp.css");
+	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js", array('blogid' => $wpdb->blogid));
 
 	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
 	$arr_settings = array(
 		'setting_show_admin_bar' => __("Show admin bar", 'lang_admin_menu'),
-		'setting_show_public_admin_bar' => __("Show public admin bar", 'lang_admin_menu'),
-		'setting_show_screen_options' => __("Show screen options", 'lang_admin_menu'),
-		'setting_admin_menu_roles' => __("Show or hide", 'lang_admin_menu'),
 	);
+
+	if(is_multisite())
+	{
+		$arr_settings['setting_sort_sites_a2z'] = __("Sort Sites in Alphabetical Order", 'lang_admin_menu');
+	}
+
+	$arr_settings['setting_show_public_admin_bar'] = __("Show public admin bar", 'lang_admin_menu');
+	$arr_settings['setting_show_screen_options'] = __("Show screen options", 'lang_admin_menu');
+	$arr_settings['setting_admin_menu_roles'] = __("Show or hide", 'lang_admin_menu');
 
 	show_settings_fields(array('area' => $options_area, 'settings' => $arr_settings, 'callback' => 'validate_settings_admin_menu'));
 }
@@ -154,6 +198,14 @@ function setting_show_admin_bar_callback()
 	$option = get_option_or_default($setting_key, get_option('setting_hide_admin_bar', 'yes'));
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
+}
+
+function setting_sort_sites_a2z_callback()
+{
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option_or_default($setting_key, 'yes');
+
+	echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 }
 
 function setting_show_public_admin_bar_callback()
@@ -200,9 +252,6 @@ function parse_role_select($data)
 function setting_admin_menu_roles_callback()
 {
 	global $menu, $submenu;
-
-	wp_enqueue_style('style_admin_menu_wp', plugin_dir_url(__FILE__)."style_wp.css");
-	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js");
 
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);

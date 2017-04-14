@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-16 17:16+0100\n"
+"POT-Creation-Date: 2017-04-14 10:47+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -35,27 +35,31 @@ msgstr "Ingen"
 msgid "Custom Name"
 msgstr "Anpassat namn"
 
-#: ../include/functions.php:135
+#: ../include/functions.php:168
 msgid "Show admin bar"
 msgstr "Visa adminmenyn längst upp"
 
-#: ../include/functions.php:136
+#: ../include/functions.php:173
+msgid "Sort Sites in Alphabetical Order"
+msgstr "Sortera webbplatser i bokstavsordning"
+
+#: ../include/functions.php:176
 msgid "Show public admin bar"
 msgstr "Visa adminmenyn på webbsidan"
 
-#: ../include/functions.php:137
+#: ../include/functions.php:177
 msgid "Show screen options"
 msgstr "Visa skärminställningar"
 
-#: ../include/functions.php:138
+#: ../include/functions.php:178
 msgid "Show or hide"
 msgstr "Visa eller dölj"
 
-#: ../include/functions.php:153
+#: ../include/functions.php:187
 msgid "Admin Menu"
 msgstr "Adminmeny"
 
-#: ../include/functions.php:198
+#: ../include/functions.php:266
 msgid "Profile"
 msgstr "Profil"
 
