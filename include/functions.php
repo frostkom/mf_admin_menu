@@ -55,7 +55,7 @@ function init_admin_menu()
 		{
 			add_action('wp_before_admin_bar_render', 'admin_bar_admin_menu');
 
-			wp_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css");
+			mf_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css", get_plugin_version(__FILE__));
 		}
 
 		$option = get_option('setting_show_public_admin_bar');
@@ -81,7 +81,7 @@ function show_profile_admin_menu($user)
 
 	if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 	{
-		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_hide.js", $arr_remove);
+		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_hide.js", $arr_remove, get_plugin_version(__FILE__));
 	}
 }
 
@@ -164,8 +164,8 @@ function settings_admin_menu()
 
 	$options_area = __FUNCTION__;
 
-	wp_enqueue_style('style_admin_menu_wp', plugin_dir_url(__FILE__)."style_wp.css");
-	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js", array('blogid' => $wpdb->blogid));
+	mf_enqueue_style('style_admin_menu_wp', plugin_dir_url(__FILE__)."style_wp.css", get_plugin_version(__FILE__));
+	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js", array('blogid' => $wpdb->blogid), get_plugin_version(__FILE__));
 
 	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
