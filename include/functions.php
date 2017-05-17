@@ -129,7 +129,7 @@ function admin_bar_menu_admin_menu()
 {
 	global $wp_admin_bar, $wpdb;
 
-	if(get_option('setting_sort_sites_a2z') != 'no')
+	if(get_option('setting_sort_sites_a2z') != 'no' && count($wp_admin_bar->user->blogs) > 1)
 	{
 		//$current_id = $wpdb->blogid;
 
