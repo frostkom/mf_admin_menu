@@ -164,8 +164,10 @@ function settings_admin_menu()
 
 	$options_area = __FUNCTION__;
 
-	mf_enqueue_style('style_admin_menu_wp', plugin_dir_url(__FILE__)."style_wp.css", get_plugin_version(__FILE__));
-	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js", array('blogid' => $wpdb->blogid), get_plugin_version(__FILE__));
+	$plugin_version = get_plugin_version(__FILE__);
+
+	mf_enqueue_style('style_admin_menu_wp', plugin_dir_url(__FILE__)."style_wp.css", $plugin_version);
+	mf_enqueue_script('script_admin_menu_wp', plugin_dir_url(__FILE__)."script_wp.js", array('blogid' => $wpdb->blogid), $plugin_version);
 
 	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
