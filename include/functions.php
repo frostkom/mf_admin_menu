@@ -81,7 +81,7 @@ function show_profile_admin_menu($user)
 
 	if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 	{
-		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_hide.js", $arr_remove, get_plugin_version(__FILE__));
+		mf_enqueue_script('script_admin_menu', plugin_dir_url(__FILE__)."script_hide.js", get_plugin_version(__FILE__));
 	}
 }
 
