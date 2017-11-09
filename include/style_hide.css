@@ -1,6 +1,6 @@
 @media all
 {
-	#wp-admin-bar-root-default, #collapse-menu, #wpfooter
+	#collapse-menu, #wpfooter
 	{
 		display: none;
 	}
