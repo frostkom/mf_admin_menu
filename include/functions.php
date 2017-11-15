@@ -363,6 +363,10 @@ function menu_admin_menu()
 {
 	global $menu, $submenu;
 
+	remove_submenu_page("index.php", "my-sites.php");
+	remove_submenu_page("tools.php", "export.php");
+	remove_submenu_page("tools.php", "import.php");
+
 	$option = get_option('setting_admin_menu_roles');
 
 	if(is_array($option) && count($option) > 0)
