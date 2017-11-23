@@ -198,7 +198,7 @@ function settings_admin_menu_callback()
 function setting_show_admin_bar_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option_or_default($setting_key, get_option('setting_hide_admin_bar', 'yes'));
+	$option = get_option($setting_key, get_option('setting_hide_admin_bar', 'yes'));
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
@@ -206,7 +206,7 @@ function setting_show_admin_bar_callback()
 function setting_sort_sites_a2z_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option_or_default($setting_key, 'yes');
+	$option = get_option($setting_key, 'yes');
 
 	echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 }
@@ -214,7 +214,7 @@ function setting_sort_sites_a2z_callback()
 function setting_show_public_admin_bar_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key, 'yes');
+	$option = get_option($setting_key, 'no');
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
@@ -222,7 +222,7 @@ function setting_show_public_admin_bar_callback()
 function setting_show_screen_options_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option_or_default($setting_key, get_option('setting_hide_screen_options', 'yes'));
+	$option = get_option($setting_key, get_option('setting_hide_screen_options', 'yes'));
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
