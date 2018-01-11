@@ -49,7 +49,7 @@ function init_admin_menu()
 {
 	if(get_current_user_id() > 0)
 	{
-		$option = get_option_or_default('setting_show_admin_bar', get_option('setting_hide_admin_bar'));
+		$option = get_site_option('setting_show_admin_bar');
 
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
@@ -58,14 +58,14 @@ function init_admin_menu()
 			mf_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css", get_plugin_version(__FILE__));
 		}
 
-		$option = get_option('setting_show_public_admin_bar');
+		$option = get_site_option('setting_show_public_admin_bar');
 
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
 			add_filter('show_admin_bar', '__return_false');
 		}
 
-		$option = get_option_or_default('setting_show_screen_options', get_option('setting_hide_screen_options'));
+		$option = get_site_option('setting_show_screen_options');
 
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
@@ -77,7 +77,7 @@ function init_admin_menu()
 
 function show_profile_admin_menu($user)
 {
-	$option = get_option('setting_show_public_admin_bar');
+	$option = get_site_option('setting_show_public_admin_bar');
 
 	if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 	{
@@ -129,10 +129,8 @@ function admin_bar_menu_admin_menu()
 {
 	global $wp_admin_bar, $wpdb;
 
-	if(get_option('setting_sort_sites_a2z') != 'no' && count($wp_admin_bar->user->blogs) > 1)
+	if(get_site_option('setting_sort_sites_a2z') != 'no' && count($wp_admin_bar->user->blogs) > 1)
 	{
-		//$current_id = $wpdb->blogid;
-
 		$arr_names = array();
 		$arr_sites = $wp_admin_bar->user->blogs;
 
@@ -141,15 +139,9 @@ function admin_bar_menu_admin_menu()
 			$arr_names[$site_id] = strtoupper($site->blogname);
 		}
 
-		//Remove current site
-		//unset($arr_names[$current_id]);
-
 		asort($arr_names);
 
 		$wp_admin_bar->user->blogs = array();
-
-		//Add current site first
-		//$wp_admin_bar->user->blogs{$current_id} = $arr_sites[$current_id];
 
 		foreach($arr_names as $site_id => $name)
 		{
@@ -162,30 +154,32 @@ function settings_admin_menu()
 {
 	global $wpdb;
 
-	$options_area = __FUNCTION__;
-
-	$plugin_include_url = plugin_dir_url(__FILE__);
-	$plugin_version = get_plugin_version(__FILE__);
-
-	mf_enqueue_style('style_admin_menu_wp', $plugin_include_url."style_wp.css", $plugin_version);
-	mf_enqueue_script('script_admin_menu_wp', $plugin_include_url."script_wp.js", array('blogid' => $wpdb->blogid), $plugin_version);
-
-	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
-
-	$arr_settings = array(
-		'setting_show_admin_bar' => __("Show admin bar", 'lang_admin_menu'),
-	);
-
-	if(is_multisite())
+	if(IS_SUPER_ADMIN)
 	{
-		$arr_settings['setting_sort_sites_a2z'] = __("Sort Sites in Alphabetical Order", 'lang_admin_menu');
+		$options_area = __FUNCTION__;
+
+		$plugin_include_url = plugin_dir_url(__FILE__);
+		$plugin_version = get_plugin_version(__FILE__);
+
+		mf_enqueue_style('style_admin_menu_wp', $plugin_include_url."style_wp.css", $plugin_version);
+		mf_enqueue_script('script_admin_menu_wp', $plugin_include_url."script_wp.js", array('blogid' => $wpdb->blogid), $plugin_version);
+
+		add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
+
+		$arr_settings = array();
+
+		if(is_multisite())
+		{
+			$arr_settings['setting_sort_sites_a2z'] = __("Sort Sites in Alphabetical Order", 'lang_admin_menu');
+		}
+
+		$arr_settings['setting_show_admin_bar'] = __("Show Admin Bar", 'lang_admin_menu');
+		$arr_settings['setting_show_public_admin_bar'] = __("Show Public Admin Bar", 'lang_admin_menu');
+		$arr_settings['setting_show_screen_options'] = __("Show Screen Options", 'lang_admin_menu');
+		$arr_settings['setting_admin_menu_roles'] = __("Show or hide", 'lang_admin_menu');
+
+		show_settings_fields(array('area' => $options_area, 'settings' => $arr_settings, 'callback' => 'validate_settings_admin_menu'));
 	}
-
-	$arr_settings['setting_show_public_admin_bar'] = __("Show public admin bar", 'lang_admin_menu');
-	$arr_settings['setting_show_screen_options'] = __("Show screen options", 'lang_admin_menu');
-	$arr_settings['setting_admin_menu_roles'] = __("Show or hide", 'lang_admin_menu');
-
-	show_settings_fields(array('area' => $options_area, 'settings' => $arr_settings, 'callback' => 'validate_settings_admin_menu'));
 }
 
 function settings_admin_menu_callback()
@@ -195,26 +189,29 @@ function settings_admin_menu_callback()
 	echo settings_header($setting_key, __("Admin Menu", 'lang_admin_menu'));
 }
 
-function setting_show_admin_bar_callback()
-{
-	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key, get_option('setting_hide_admin_bar', 'yes'));
-
-	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
-}
-
 function setting_sort_sites_a2z_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key, 'yes');
+	settings_save_site_wide($setting_key);
+	$option = get_site_option($setting_key, 'yes');
 
 	echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
+}
+
+function setting_show_admin_bar_callback()
+{
+	$setting_key = get_setting_key(__FUNCTION__);
+	settings_save_site_wide($setting_key);
+	$option = get_site_option($setting_key, 'yes');
+
+	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
 function setting_show_public_admin_bar_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key, 'no');
+	settings_save_site_wide($setting_key);
+	$option = get_site_option($setting_key, 'no');
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
@@ -222,7 +219,8 @@ function setting_show_public_admin_bar_callback()
 function setting_show_screen_options_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key, get_option('setting_hide_screen_options', 'yes'));
+	settings_save_site_wide($setting_key);
+	$option = get_site_option($setting_key, 'yes');
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
