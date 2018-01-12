@@ -193,7 +193,7 @@ function setting_sort_sites_a2z_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	settings_save_site_wide($setting_key);
-	$option = get_site_option($setting_key, 'yes');
+	$option = get_site_option($setting_key, get_option($setting_key, 'yes'));
 
 	echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 }
@@ -202,7 +202,7 @@ function setting_show_admin_bar_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	settings_save_site_wide($setting_key);
-	$option = get_site_option($setting_key, 'yes');
+	$option = get_site_option($setting_key, get_option($setting_key, 'yes'));
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
@@ -211,7 +211,7 @@ function setting_show_public_admin_bar_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	settings_save_site_wide($setting_key);
-	$option = get_site_option($setting_key, 'no');
+	$option = get_site_option($setting_key, get_option($setting_key, 'no'));
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
@@ -220,7 +220,7 @@ function setting_show_screen_options_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	settings_save_site_wide($setting_key);
-	$option = get_site_option($setting_key, 'yes');
+	$option = get_site_option($setting_key, get_option($setting_key, 'yes'));
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
