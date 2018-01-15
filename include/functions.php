@@ -328,8 +328,6 @@ function setting_admin_menu_roles_callback()
 
 	echo "<ul id='admin_menu_roles'>";
 
-		//echo htmlspecialchars(var_export($arr_parent_items, true));
-
 		foreach($arr_parent_items as $parent_key => $arr_items)
 		{
 			foreach($arr_items as $arr_item)
