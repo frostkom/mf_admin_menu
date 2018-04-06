@@ -3,7 +3,7 @@
 Plugin Name: MF Admin Menu
 Plugin URI: https://github.com/frostkom/mf_admin_menu
 Description: 
-Version: 2.9.5
+Version: 2.9.6
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: http://frostkom.se
@@ -42,7 +42,7 @@ if(is_admin())
 			'options' => array('setting_hide_admin_bar', 'setting_hide_screen_options'),
 		));
 	}
-	
+
 	function uninstall_admin_menu()
 	{
 		mf_uninstall_plugin(array(
