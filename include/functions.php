@@ -351,6 +351,11 @@ function menu_admin_menu()
 {
 	global $menu, $submenu;
 
+	if(!isset($menu[81]))
+	{
+		$menu[81] = array('', 'read', 'separator3', '', 'wp-menu-separator');
+	}
+
 	remove_submenu_page("index.php", "my-sites.php");
 	remove_submenu_page("tools.php", "export.php");
 	remove_submenu_page("tools.php", "import.php");
