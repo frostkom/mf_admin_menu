@@ -65,13 +65,13 @@ function init_admin_menu()
 			add_filter('show_admin_bar', '__return_false');
 		}
 
-		$option = get_site_option('setting_show_screen_options');
+		/*$option = get_site_option('setting_show_screen_options');
 
 		if($option != '' && $option != 'yes' && ($option == "no" || $option == "none" || !current_user_can($option)))
 		{
 			add_filter('screen_options_show_screen', 'screen_options_admin_menu', 10, 2);
 			add_action('wp_before_admin_bar_render', 'help_tabs_admin_menu');
-		}
+		}*/
 	}
 }
 
@@ -167,7 +167,7 @@ function settings_admin_menu()
 
 		$arr_settings['setting_show_admin_bar'] = __("Show Admin Bar", 'lang_admin_menu');
 		$arr_settings['setting_show_public_admin_bar'] = __("Show Public Admin Bar", 'lang_admin_menu');
-		$arr_settings['setting_show_screen_options'] = __("Show Screen Options", 'lang_admin_menu');
+		//$arr_settings['setting_show_screen_options'] = __("Show Screen Options", 'lang_admin_menu');
 		$arr_settings['setting_admin_menu_roles'] = __("Show or hide", 'lang_admin_menu');
 
 		show_settings_fields(array('area' => $options_area, 'settings' => $arr_settings, 'callback' => 'validate_settings_admin_menu'));
@@ -208,14 +208,14 @@ function setting_show_public_admin_bar_callback()
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
-function setting_show_screen_options_callback()
+/*function setting_show_screen_options_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	settings_save_site_wide($setting_key);
 	$option = get_site_option($setting_key, get_option($setting_key, 'yes'));
 
 	echo show_select(array('data' => get_settings_roles(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
-}
+}*/
 
 function parse_role_select($data)
 {

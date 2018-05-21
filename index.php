@@ -3,7 +3,7 @@
 Plugin Name: MF Admin Menu
 Plugin URI: https://github.com/frostkom/mf_admin_menu
 Description: 
-Version: 2.9.10
+Version: 2.9.11
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: http://frostkom.se
@@ -23,7 +23,7 @@ add_action('init', 'init_admin_menu');
 
 if(is_admin())
 {
-	register_deactivation_hook(__FILE__, 'deactivate_admin_menu');
+	register_activation_hook(__FILE__, 'activate_admin_menu');
 	register_uninstall_hook(__FILE__, 'uninstall_admin_menu');
 
 	if(is_multisite())
@@ -40,17 +40,17 @@ if(is_admin())
 
 	load_plugin_textdomain('lang_admin_menu', false, dirname(plugin_basename(__FILE__)).'/lang/');
 
-	function deactivate_admin_menu()
+	function activate_admin_menu()
 	{
 		mf_uninstall_plugin(array(
-			'options' => array('setting_hide_admin_bar', 'setting_hide_screen_options'),
+			'options' => array('setting_hide_admin_bar', 'setting_hide_screen_options', 'setting_show_screen_options'),
 		));
 	}
 
 	function uninstall_admin_menu()
 	{
 		mf_uninstall_plugin(array(
-			'options' => array('setting_sort_sites_a2z', 'setting_show_admin_bar', 'setting_show_public_admin_bar', 'setting_show_screen_options', 'setting_admin_menu_roles'),
+			'options' => array('setting_sort_sites_a2z', 'setting_show_admin_bar', 'setting_show_public_admin_bar', 'setting_admin_menu_roles'),
 		));
 	}
 }
