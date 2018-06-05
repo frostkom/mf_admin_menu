@@ -97,7 +97,7 @@ function get_settings_roles($data)
 
 	if($data['yes'] == true)
 	{
-		$arr_data["yes"] = "-- ".__("Yes", 'lang_admin_menu')." --";
+		$arr_data['yes'] = "-- ".__("Yes", 'lang_admin_menu')." --";
 	}
 
 	if($data['default'] == true)
@@ -109,17 +109,17 @@ function get_settings_roles($data)
 
 	if($data['no'] == true)
 	{
-		$arr_data["no"] = "-- ".__("No", 'lang_admin_menu')." --";
+		$arr_data['no'] = "-- ".__("No", 'lang_admin_menu')." --";
 	}
 
 	if($data['none'] == true)
 	{
-		$arr_data["none"] = "-- ".__("None", 'lang_admin_menu')." --";
+		$arr_data['none'] = "-- ".__("None", 'lang_admin_menu')." --";
 	}
 
 	if($data['custom_name'] == true)
 	{
-		$arr_data["custom_name"] = "-- ".__("Custom Name", 'lang_admin_menu')." --";
+		$arr_data['custom_name'] = "-- ".__("Custom Name", 'lang_admin_menu')." --";
 	}
 
 	return $arr_data;
