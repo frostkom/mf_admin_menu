@@ -15,7 +15,7 @@ function admin_bar_admin_menu()
 
 	else
 	{
-		$wp_admin_bar->remove_menu('live');
+		//$wp_admin_bar->remove_menu('live'); //This removes live message that is set by Theme Core
 		$wp_admin_bar->remove_menu('updates');
 	}
 
