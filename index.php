@@ -15,11 +15,10 @@ GitHub Plugin URI: frostkom/mf_admin_menu
 */
 
 include_once("include/classes.php");
-include_once("include/functions.php");
 
 $obj_admin_menu = new mf_admin_menu();
 
-add_action('init', 'init_admin_menu');
+add_action('init', array($obj_admin_menu, 'init'));
 
 if(is_admin())
 {
@@ -28,15 +27,15 @@ if(is_admin())
 
 	if(is_multisite())
 	{
-		add_action('admin_bar_menu', 'admin_bar_menu_admin_menu');
+		add_action('admin_bar_menu', array($obj_admin_menu, 'admin_bar_menu'));
 	}
 
-	add_action('admin_init', 'settings_admin_menu');
+	add_action('admin_init', array($obj_admin_menu, 'settings_admin_menu'));
 	add_action('admin_init', array($obj_admin_menu, 'admin_init'), 0);
-	add_action('admin_menu', 'menu_admin_menu', 999);
+	add_action('admin_menu', array($obj_admin_menu, 'admin_menu'), 999);
 
-	add_action('show_user_profile', 'show_profile_admin_menu');
-	add_action('edit_user_profile', 'show_profile_admin_menu');
+	add_action('show_user_profile', array($obj_admin_menu, 'show_user_profile'));
+	add_action('edit_user_profile', array($obj_admin_menu, 'show_user_profile'));
 
 	load_plugin_textdomain('lang_admin_menu', false, dirname(plugin_basename(__FILE__)).'/lang/');
 
