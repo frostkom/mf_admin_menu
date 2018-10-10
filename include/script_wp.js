@@ -1,7 +1,5 @@
 jQuery(function($)
 {
-	console.log("script_wp");
-
 	if(script_admin_menu_wp.blogid > 0)
 	{
 		$("#wp-admin-bar-blog-" + script_admin_menu_wp.blogid).addClass('current_site');
