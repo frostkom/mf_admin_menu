@@ -84,7 +84,7 @@ class mf_admin_menu
 
 		return false;
 	}
-	
+
 	function wp_before_admin_bar_render()
 	{
 		$screen = get_current_screen();
