@@ -112,7 +112,7 @@ class mf_admin_menu
 		return "<li class='flex_flow tight".($item_parent == false ? "" : " child")."'>"
 			.show_textfield(array('value' => $item_name))
 			.input_hidden(array('value' => $item_url))
-			.show_select(array('data' => $data['array'], 'name' => "setting_admin_menu_roles[".$data['key']."]", 'value' => $data['capability']))
+			.show_select(array('data' => $data['array'], 'name' => 'setting_admin_menu_roles['.$data['key'].']', 'value' => $data['capability']))
 		."</li>";
 	}
 
@@ -142,7 +142,7 @@ class mf_admin_menu
 
 	function admin_bar_menu()
 	{
-		global $wp_admin_bar, $wpdb;
+		global $wp_admin_bar;
 
 		if(get_site_option('setting_sort_sites_a2z') != 'no' && count($wp_admin_bar->user->blogs) > 1)
 		{
@@ -447,7 +447,7 @@ class mf_admin_menu
 		}
 	}
 
-	function show_user_profile($user)
+	function edit_user_profile($user)
 	{
 		$option = get_site_option('setting_show_public_admin_bar');
 

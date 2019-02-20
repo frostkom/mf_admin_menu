@@ -34,8 +34,8 @@ if(is_admin())
 	add_action('admin_init', array($obj_admin_menu, 'admin_init'), 0);
 	add_action('admin_menu', array($obj_admin_menu, 'admin_menu'), 999);
 
-	add_action('show_user_profile', array($obj_admin_menu, 'show_user_profile'));
-	add_action('edit_user_profile', array($obj_admin_menu, 'show_user_profile'));
+	add_action('show_user_profile', array($obj_admin_menu, 'edit_user_profile'));
+	add_action('edit_user_profile', array($obj_admin_menu, 'edit_user_profile'));
 
 	load_plugin_textdomain('lang_admin_menu', false, dirname(plugin_basename(__FILE__)).'/lang/');
 
