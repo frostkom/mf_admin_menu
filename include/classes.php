@@ -109,6 +109,11 @@ class mf_admin_menu
 			$item_name = $arr_item[2];
 		}
 
+		/*$item_name = strip_tags($item_name);
+		$item_name = htmlspecialchars_decode($item_name);
+		$item_name = strip_tags($item_name);
+		$item_name = trim($item_name);*/
+
 		return "<li class='flex_flow tight".($item_parent == false ? "" : " child")."'>"
 			.show_textfield(array('value' => $item_name))
 			.input_hidden(array('value' => $item_url))
