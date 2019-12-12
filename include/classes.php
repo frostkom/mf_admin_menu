@@ -129,7 +129,7 @@ class mf_admin_menu
 			{
 				add_action('wp_before_admin_bar_render', array($this, 'wp_before_admin_bar_render'));
 
-				mf_enqueue_style('style_admin_menu', plugin_dir_url(__FILE__)."style_hide.css", get_plugin_version(__FILE__));
+				mf_enqueue_style('style_admin_menu_hide', plugin_dir_url(__FILE__)."style_hide.css", get_plugin_version(__FILE__));
 			}
 
 			if($this->check_option(get_site_option('setting_show_public_admin_bar')))
