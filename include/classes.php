@@ -123,7 +123,7 @@ class mf_admin_menu
 
 	function init()
 	{
-		if(get_current_user_id() > 0)
+		if(is_user_logged_in())
 		{
 			if($this->check_option(get_site_option('setting_show_admin_bar')))
 			{
