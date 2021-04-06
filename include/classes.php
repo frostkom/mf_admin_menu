@@ -114,11 +114,14 @@ class mf_admin_menu
 		$item_name = strip_tags($item_name);
 		$item_name = trim($item_name);*/
 
-		return "<li class='flex_flow tight".($item_parent == false ? "" : " child")."'>"
-			.show_textfield(array('value' => $item_name))
-			.input_hidden(array('value' => $item_url))
-			.show_select(array('data' => $data['array'], 'name' => 'setting_admin_menu_roles['.$data['key'].']', 'value' => $data['capability']))
-		."</li>";
+		if(strpos($item_url, "post_type=page&post_title=") === false) // Ignore setting_theme_core_templates
+		{
+			return "<li class='flex_flow tight".($item_parent == false ? "" : " child")."'>"
+				.show_textfield(array('value' => $item_name))
+				.input_hidden(array('value' => $item_url))
+				.show_select(array('data' => $data['array'], 'name' => 'setting_admin_menu_roles['.$data['key'].']', 'value' => $data['capability']))
+			."</li>";
+		}
 	}
 
 	function init()
