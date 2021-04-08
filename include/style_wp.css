@@ -1,5 +1,11 @@
 @media all
 {
+	#wp-admin-bar-my-sites .far
+	{
+		font-family: 'Font Awesome 5 Free';
+		margin-top: -1em;
+	}
+
 	.current_site
 	{
 		background: rgba(255, 255, 255, .08) !important;

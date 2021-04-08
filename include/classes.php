@@ -154,12 +154,19 @@ class mf_admin_menu
 
 		if(get_site_option('setting_sort_sites_a2z') != 'no' && count($wp_admin_bar->user->blogs) > 1)
 		{
+			$main_site_id = get_main_site_id();
+
 			$arr_names = array();
 			$arr_sites = $wp_admin_bar->user->blogs;
 
 			foreach($arr_sites as $site_id => $site)
 			{
 				$arr_names[$site_id] = strtoupper($site->blogname);
+
+				if($site_id == $main_site_id)
+				{
+					$wp_admin_bar->user->blogs{$site_id}->blogname .= " <i class='far fa-star yellow'></i>";
+				}
 			}
 
 			asort($arr_names);
