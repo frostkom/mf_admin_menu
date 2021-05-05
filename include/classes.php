@@ -165,7 +165,7 @@ class mf_admin_menu
 
 				if($site_id == $main_site_id)
 				{
-					$wp_admin_bar->user->blogs{$site_id}->blogname .= " <i class='far fa-star yellow'></i>";
+					$wp_admin_bar->user->blogs[$site_id]->blogname .= " <i class='far fa-star yellow'></i>";
 				}
 			}
 
@@ -175,7 +175,7 @@ class mf_admin_menu
 
 			foreach($arr_names as $site_id => $name)
 			{
-				$wp_admin_bar->user->blogs{$site_id} = $arr_sites[$site_id];
+				$wp_admin_bar->user->blogs[$site_id] = $arr_sites[$site_id];
 			}
 		}
 	}
