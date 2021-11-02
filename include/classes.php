@@ -74,6 +74,7 @@ class mf_admin_menu
 		$wp_admin_bar->remove_menu('view');
 		$wp_admin_bar->remove_menu('comments');
 		$wp_admin_bar->remove_menu('new-content');
+		$wp_admin_bar->remove_menu('exactmetrics_frontend_button');
 		//$wp_admin_bar->remove_menu('my-account');
 	}
 
