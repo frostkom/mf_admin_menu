@@ -377,8 +377,12 @@ class mf_admin_menu
 		}
 
 		remove_submenu_page("index.php", "my-sites.php");
-		remove_submenu_page("tools.php", "export.php");
-		remove_submenu_page("tools.php", "import.php");
+
+		/*if(!IS_SUPER_ADMIN)
+		{
+			remove_submenu_page("tools.php", "export.php");
+			remove_submenu_page("tools.php", "import.php");
+		}*/
 
 		$option = get_option('setting_admin_menu_roles');
 

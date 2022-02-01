@@ -3,7 +3,7 @@
 Plugin Name: MF Admin Menu
 Plugin URI: https://github.com/frostkom/mf_admin_menu
 Description: 
-Version: 2.9.29
+Version: 2.9.30
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -19,7 +19,7 @@ if(!function_exists('is_plugin_active'))
 	require_once(ABSPATH."wp-admin/includes/plugin.php");
 }
 
-if(function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
+if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
 {
 	include_once("include/classes.php");
 
