@@ -2,11 +2,11 @@
 /*
 Plugin Name: MF Admin Menu
 Plugin URI: https://github.com/frostkom/mf_admin_menu
-Description: 
-Version: 2.9.30
+Description:
+Version: 2.9.31
 Licence: GPLv2 or later
 Author: Martin Fors
-Author URI: https://frostkom.se
+Author URI: https://martinfors.se
 Text Domain: lang_admin_menu
 Domain Path: /lang
 
