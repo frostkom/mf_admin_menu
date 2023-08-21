@@ -291,35 +291,39 @@ class mf_admin_menu
 				if($item[0] != '')
 				{
 					$update_count = get_match("/(\<span.*\<\/span\>)/is", $item[0], false);
-					$item_name = trim(strip_tags(str_replace($update_count, "", $item[0])));
 
-					if($item_name != '')
+					if($update_count != '')
 					{
-						$item_capability = $item[1];
-						$item_url = $item[2];
+						$item_name = trim(strip_tags(str_replace($update_count, "", $item[0])));
 
-						$item_key = $item_url.'|'.$item_name;
-
-						if(!(is_array($option) && count($option) > 0 && isset($option[$item_key])))
+						if($item_name != '')
 						{
-							$arr_parent_items[$item_url][$item_url] = array('key' => $item_key, 'capability' => $item_capability);
+							$item_capability = $item[1];
+							$item_url = $item[2];
 
-							if(isset($submenu[$item_url]) && is_array($submenu[$item_url]))
+							$item_key = $item_url.'|'.$item_name;
+
+							if(!(is_array($option) && count($option) > 0 && isset($option[$item_key])))
 							{
-								foreach($submenu[$item_url] as $subkey => $subitem)
+								$arr_parent_items[$item_url][$item_url] = array('key' => $item_key, 'capability' => $item_capability);
+
+								if(isset($submenu[$item_url]) && is_array($submenu[$item_url]))
 								{
-									$subitem_name = trim(strip_tags($subitem[0]));
-
-									if($subitem_name != '')
+									foreach($submenu[$item_url] as $subkey => $subitem)
 									{
-										$subitem_url = $subitem[2];
+										$subitem_name = trim(strip_tags($subitem[0]));
 
-										if($subitem_url != $item_url)
+										if($subitem_name != '')
 										{
-											$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
-											$subitem_capability = $subitem[1];
+											$subitem_url = $subitem[2];
 
-											$arr_parent_items[$item_url][$subitem_url] = array('key' => $subitem_key, 'capability' => $subitem_capability);
+											if($subitem_url != $item_url)
+											{
+												$subitem_key = $item_url.'|'.$subitem_url.'|'.$subitem_name;
+												$subitem_capability = $subitem[1];
+
+												$arr_parent_items[$item_url][$subitem_url] = array('key' => $subitem_key, 'capability' => $subitem_capability);
+											}
 										}
 									}
 								}

@@ -3,7 +3,7 @@
 Plugin Name: MF Admin Menu
 Plugin URI: https://github.com/frostkom/mf_admin_menu
 Description:
-Version: 2.9.31
+Version: 2.9.32
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
