@@ -438,11 +438,15 @@ class mf_admin_menu
 									if($item_url == $menu_url)
 									{
 										$update_count = get_match("/(\<span.*\<\/span\>)/is", $item[0], false);
-										$menu_name = trim(str_replace($update_count, "", $item[0]));
 
-										if($item_name != $menu_name)
+										if($update_count != '')
 										{
-											$menu[$key][0] = $item_name." ".$update_count;
+											$menu_name = trim(str_replace($update_count, "", $item[0]));
+
+											if($item_name != $menu_name)
+											{
+												$menu[$key][0] = $item_name." ".$update_count;
+											}
 										}
 									}
 								}
