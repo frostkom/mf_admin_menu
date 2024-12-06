@@ -127,6 +127,8 @@ class mf_admin_menu
 
 	function init()
 	{
+		load_plugin_textdomain('lang_admin_menu', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
+
 		if(is_user_logged_in())
 		{
 			if($this->check_option(get_site_option('setting_show_admin_bar')))
