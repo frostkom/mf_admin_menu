@@ -100,7 +100,7 @@ class mf_admin_menu
 		}
 	}
 
-	function admin_bar_menu()
+	/*function admin_bar_menu()
 	{
 		global $wp_admin_bar;
 
@@ -130,7 +130,7 @@ class mf_admin_menu
 				$wp_admin_bar->user->blogs[$site_id] = $arr_sites[$site_id];
 			}
 		}
-	}
+	}*/
 
 	function settings_callback($page_options)
 	{
@@ -158,10 +158,10 @@ class mf_admin_menu
 
 			$arr_settings = array();
 
-			if(is_multisite())
+			/*if(is_multisite())
 			{
 				$arr_settings['setting_sort_sites_a2z'] = __("Sort Sites in Alphabetical Order", 'lang_admin_menu');
-			}
+			}*/
 
 			//$arr_settings['setting_show_admin_bar'] = __("Show Admin Bar", 'lang_admin_menu');
 			$arr_settings['setting_show_public_admin_bar'] = __("Show Public Admin Bar", 'lang_admin_menu');
@@ -178,14 +178,14 @@ class mf_admin_menu
 		echo settings_header($setting_key, __("Admin Menu", 'lang_admin_menu'));
 	}
 
-	function setting_sort_sites_a2z_callback()
+	/*function setting_sort_sites_a2z_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
 		settings_save_site_wide($setting_key);
 		$option = get_site_option($setting_key, get_option($setting_key, 'yes'));
 
 		echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
-	}
+	}*/
 
 	/*function setting_show_admin_bar_callback()
 	{

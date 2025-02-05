@@ -3,7 +3,7 @@
 Plugin Name: MF Admin Menu
 Plugin URI: https://github.com/frostkom/mf_admin_menu
 Description:
-Version: 2.9.36
+Version: 2.9.37
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -32,10 +32,10 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		register_activation_hook(__FILE__, 'activate_admin_menu');
 		register_uninstall_hook(__FILE__, 'uninstall_admin_menu');
 
-		if(is_multisite())
+		/*if(is_multisite())
 		{
 			add_action('admin_bar_menu', array($obj_admin_menu, 'admin_bar_menu'));
-		}
+		}*/
 
 		add_action('admin_init', array($obj_admin_menu, 'settings_admin_menu'));
 		add_action('admin_init', array($obj_admin_menu, 'admin_init'), 0);
@@ -47,14 +47,14 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		function activate_admin_menu()
 		{
 			mf_uninstall_plugin(array(
-				'options' => array('setting_hide_admin_bar', 'setting_hide_screen_options', 'setting_show_screen_options', 'setting_show_admin_bar'),
+				'options' => array('setting_sort_sites_a2z', 'setting_hide_admin_bar', 'setting_hide_screen_options', 'setting_show_screen_options', 'setting_show_admin_bar'),
 			));
 		}
 
 		function uninstall_admin_menu()
 		{
 			mf_uninstall_plugin(array(
-				'options' => array('setting_sort_sites_a2z', 'setting_show_public_admin_bar', 'setting_admin_menu_roles'),
+				'options' => array('setting_show_public_admin_bar', 'setting_admin_menu_roles'),
 			));
 		}
 	}
