@@ -88,49 +88,12 @@ class mf_admin_menu
 
 		if(is_user_logged_in())
 		{
-			/*if($this->check_option(get_site_option('setting_show_admin_bar')))
-			{
-				mf_enqueue_style('style_admin_menu_hide', plugin_dir_url(__FILE__)."style_hide.css", get_plugin_version(__FILE__));
-			}*/
-
 			if($this->check_option(get_site_option('setting_show_public_admin_bar')))
 			{
 				add_filter('show_admin_bar', '__return_false');
 			}
 		}
 	}
-
-	/*function admin_bar_menu()
-	{
-		global $wp_admin_bar;
-
-		if(get_site_option('setting_sort_sites_a2z') != 'no' && count($wp_admin_bar->user->blogs) > 1)
-		{
-			$main_site_id = get_main_site_id();
-
-			$arr_names = array();
-			$arr_sites = $wp_admin_bar->user->blogs;
-
-			foreach($arr_sites as $site_id => $site)
-			{
-				$arr_names[$site_id] = strtoupper($site->blogname);
-
-				if($site_id == $main_site_id)
-				{
-					$wp_admin_bar->user->blogs[$site_id]->blogname .= " <i class='far fa-star yellow'></i>";
-				}
-			}
-
-			asort($arr_names);
-
-			$wp_admin_bar->user->blogs = array();
-
-			foreach($arr_names as $site_id => $name)
-			{
-				$wp_admin_bar->user->blogs[$site_id] = $arr_sites[$site_id];
-			}
-		}
-	}*/
 
 	function settings_callback($page_options)
 	{
@@ -163,7 +126,6 @@ class mf_admin_menu
 				$arr_settings['setting_sort_sites_a2z'] = __("Sort Sites in Alphabetical Order", 'lang_admin_menu');
 			}*/
 
-			//$arr_settings['setting_show_admin_bar'] = __("Show Admin Bar", 'lang_admin_menu');
 			$arr_settings['setting_show_public_admin_bar'] = __("Show Public Admin Bar", 'lang_admin_menu');
 			$arr_settings['setting_admin_menu_roles'] = __("Show or hide", 'lang_admin_menu');
 
@@ -177,24 +139,6 @@ class mf_admin_menu
 
 		echo settings_header($setting_key, __("Admin Menu", 'lang_admin_menu'));
 	}
-
-	/*function setting_sort_sites_a2z_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		settings_save_site_wide($setting_key);
-		$option = get_site_option($setting_key, get_option($setting_key, 'yes'));
-
-		echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
-	}*/
-
-	/*function setting_show_admin_bar_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		settings_save_site_wide($setting_key);
-		$option = get_site_option($setting_key, get_option($setting_key, 'yes'));
-
-		echo show_select(array('data' => $this->get_settings_roles_for_select(array('yes' => true, 'no' => true)), 'name' => $setting_key, 'value' => $option));
-	}*/
 
 	function setting_show_public_admin_bar_callback()
 	{
